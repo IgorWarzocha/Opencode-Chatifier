@@ -1,4 +1,4 @@
-# OpenCode Chatifier
+# OpenCode Chat
 
 A conversational coding assistant plugin for OpenCode with semantic code search.
 
