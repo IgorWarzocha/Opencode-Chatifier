@@ -14,7 +14,6 @@ import { ensureSemanticIndex, ensureModel } from "./semantic"
 export const ChatifierPlugin: Plugin = async ({ directory, worktree }) => {
   const todoPath = path.join(worktree, TODO_FILENAME)
 
-  // Download model first (if not cached)
   await ensureModel(worktree)
 
   const result = await ensureSemanticIndex(worktree, {
@@ -23,12 +22,12 @@ export const ChatifierPlugin: Plugin = async ({ directory, worktree }) => {
     onProgress: (progress) => {
       if (progress.total === 0) return
       const percent = Math.floor((progress.processed / progress.total) * 100)
-      const width = 20
-      const filled = Math.round((percent / 100) * width)
-      const bar = "=".repeat(filled) + "-".repeat(width - filled)
+      const filled = Math.round((percent / 100) * 20)
+      const bar = "=".repeat(filled) + "-".repeat(20 - filled)
       const current = progress.currentPath ? `\n  ${progress.currentPath}` : ""
-      const line = `[semantic] [${bar}] ${percent}% ${progress.processed}/${progress.total} files, chunks: ${progress.chunks}${current}`
-      console.log(line)
+      console.log(
+        `[semantic] [${bar}] ${percent}% ${progress.processed}/${progress.total} files, chunks: ${progress.chunks}${current}`,
+      )
     },
   })
 

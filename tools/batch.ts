@@ -15,16 +15,14 @@ export function createChatBatch(runners: Record<string, Runner>, todoRead: () =>
   }
 
   const run = async (args: { tool_calls: ToolCall[] }) => {
-    const toolCalls = args.tool_calls.slice(0, 10)
-    const results: string[] = []
-    for (const call of toolCalls) {
-      const runner = allRunners[call.tool]
-      if (!runner) {
-        results.push(`Unsupported tool in batch: ${call.tool}`)
-        continue
-      }
-      results.push(await runner(call.parameters))
-    }
+    const calls = args.tool_calls.slice(0, 10)
+    const results = await Promise.all(
+      calls.map((call) => {
+        const runner = allRunners[call.tool]
+        if (!runner) return Promise.resolve(`Unsupported tool: ${call.tool}`)
+        return runner(call.parameters)
+      }),
+    )
     return results.join("\n\n")
   }
 

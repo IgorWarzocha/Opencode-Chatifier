@@ -3,9 +3,22 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": ".",
     "strict": true,
     "skipLibCheck": true,
     "types": ["bun-types"]
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "index.ts",
+    "config.ts",
+    "system.ts",
+    "tools/**/*.ts",
+    "util/**/*.ts",
+    "semantic/**/*.ts",
+    "script/**/*.ts"
+  ],
+  "exclude": ["dist", "node_modules"]
 }

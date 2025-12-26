@@ -4,28 +4,20 @@
  */
 import { tool } from "@opencode-ai/plugin"
 import * as path from "path"
-import { Patch } from "../util/patch"
+import { parsePatch, applyHunksToFiles, type Hunk } from "../util/patch"
 
 export function createChatPatch(baseDir: string) {
   const run = async (args: { patchText: string }) => {
-    const { hunks } = Patch.parsePatch(args.patchText)
+    const { hunks } = parsePatch(args.patchText)
 
-    // Resolve paths relative to baseDir
-    const resolvedHunks = hunks.map((hunk) => {
+    const resolved: Hunk[] = hunks.map((hunk) => {
       if (hunk.type === "update" && hunk.move_path) {
-        return {
-          ...hunk,
-          path: path.resolve(baseDir, hunk.path),
-          move_path: path.resolve(baseDir, hunk.move_path),
-        }
+        return { ...hunk, path: path.resolve(baseDir, hunk.path), move_path: path.resolve(baseDir, hunk.move_path) }
       }
-      return {
-        ...hunk,
-        path: path.resolve(baseDir, hunk.path),
-      }
-    }) as Patch.Hunk[]
+      return { ...hunk, path: path.resolve(baseDir, hunk.path) }
+    })
 
-    const result = await Patch.applyHunksToFiles(resolvedHunks)
+    const result = await applyHunksToFiles(resolved)
 
     const summary: string[] = []
     if (result.added.length) summary.push(`Added: ${result.added.join(", ")}`)

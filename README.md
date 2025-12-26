@@ -1,73 +1,113 @@
-# Opencode Chatifier
+# OpenCode Chatifier
 
-Transform your OpenCode experience into a conversational coding assistant with semantic code search.
+A conversational coding assistant plugin for OpenCode with semantic code search.
 
-## What You Get
+## What It Does
 
-- **Smarter Conversations** - Two specialized chat agents optimized for natural interaction
-- **Semantic Code Search** - Find code by meaning, not just keywords. Ask "where is the authentication logic?" and get relevant results
-- **Task Tracking** - Built-in todo management that persists across sessions
-- **Memory** - The assistant remembers important context you tell it
+**Chatifier** transforms OpenCode into a more conversational experience with two specialized agents and local semantic search.
 
-## Quick Start
+### Chat Agents
 
-### 1. Install
+| Agent         | Purpose                                              |
+| ------------- | ---------------------------------------------------- |
+| **Just Chat** | Quick questions, web research, remembering context   |
+| **Tool Chat** | Full coding toolkit with semantic search and editing |
 
-```bash
-npm install opencode-chat
-```
+### Features
 
-### 2. Configure
+- **Semantic Search** - Ask "where is auth handled?" and find code by meaning, not keywords
+- **Memory** - Tell it to remember preferences and they persist across sessions
+- **Task Tracking** - Built-in todo list for multi-step work
+- **Skills** - Load project-specific guidance from `.opencode/skill/`
+- **Streamlined Prompts** - Concise, direct responses without filler
 
-Add to your OpenCode config file (`~/.config/opencode/config.ts` or `.opencode/config.ts`):
+## Installation
 
-```typescript
-import { ChatifierPlugin } from "opencode-chat"
+Add to your `opencode.json`:
 
-export default {
-  plugins: [ChatifierPlugin],
+```json
+{
+  "plugin": ["@howaboua/opencode-chat"]
 }
 ```
 
-### 3. Launch OpenCode
+OpenCode automatically installs the plugin on next launch.
 
-The plugin automatically:
+### Pin a version (optional)
 
-- Downloads the embedding model on first run (~90MB, cached locally)
-- Indexes your codebase for semantic search (incremental updates on subsequent runs)
-
-## Chat Agents
-
-After installing, you'll have two new agents available:
-
-| Agent         | Best For                                                         |
-| ------------- | ---------------------------------------------------------------- |
-| **Just Chat** | Quick questions, web research, general conversation              |
-| **Tool Chat** | Coding tasks, file editing, semantic search, full toolkit access |
-
-## Semantic Search
-
-Ask natural language questions about your codebase:
-
-- "Where is the user authentication handled?"
-- "Find the database connection setup"
-- "Show me the API error handling"
-
-The plugin indexes your code locally and searches by meaning, not just text matching.
-
-## Large Codebases
-
-For projects with 100+ files, run the indexer manually before first use:
-
-```bash
-npx opencode-chat semantic-index
+```json
+{
+  "plugin": ["@howaboua/opencode-chat@0.1.0"]
+}
 ```
 
-This ensures the full codebase is indexed without blocking startup.
+## Setup
+
+### New or Small Projects
+
+For new projects or directories with fewer than 100 files, just launch OpenCode. The plugin automatically:
+
+1. Downloads the embedding model (~90MB, cached in `.opencode/chat/models/`)
+2. Indexes your codebase for semantic search
+
+### Existing Large Projects (IMPORTANT)
+
+**For directories with 100+ files (Obsidian vaults, large codebases, etc.), you MUST run setup manually before launching OpenCode.** Otherwise, the plugin will skip indexing to avoid blocking startup.
+
+```bash
+cd your-project
+
+# Download the embedding model first
+npx opencode-chat-download-model
+
+# Index your files (may take several minutes for large directories)
+npx opencode-chat-semantic-index --mode full
+```
+
+After this one-time setup, OpenCode will launch normally and only re-index changed files.
+
+## Usage
+
+### Switch Agents
+
+Use the agent selector in OpenCode to switch between:
+
+- **Just Chat** - Conversational, minimal tools, web access
+- **Tool Chat** - Full toolkit including semantic search
+
+### Semantic Search
+
+Ask natural language questions:
+
+- "Where is the database connection configured?"
+- "Find error handling for API requests"
+- "Show me the authentication flow"
+
+The assistant searches by meaning using local embeddings - no API calls, fully private.
+
+### Memory
+
+Tell the assistant to remember things:
+
+- "Remember that I prefer TypeScript over JavaScript"
+- "Remember this project uses React 19"
+
+Memories persist in `AGENTS.md` and apply to future sessions.
+
+### Task Tracking
+
+For multi-step tasks, the assistant creates and tracks a todo list automatically. The list persists in `todo.md` and is removed when all tasks complete.
 
 ## Requirements
 
-- [OpenCode](https://github.com/sst/opencode) v1.0.201+
+- [OpenCode](https://opencode.ai) v1.0.201+
+- [Bun](https://bun.sh) runtime (for semantic indexing)
+
+## How It Works
+
+- **Embeddings**: Uses [fastembed](https://github.com/Anush008/fastembed-js) with the AllMiniLML6V2 model
+- **Storage**: SQLite database in `.opencode/chat/semantic.sqlite`
+- **Indexing**: Incremental - only re-indexes changed files
 
 ## License
 

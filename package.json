@@ -1,14 +1,22 @@
 {
-  "name": "opencode-chat",
+  "name": "@howaboua/opencode-chat",
   "version": "0.1.0",
   "description": "Chatifier plugin for OpenCode - Adds chat-optimized tools and semantic search",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "opencode-chat-download-model": "dist/script/download-model.js",
+    "opencode-chat-semantic-index": "dist/script/semantic-index.js"
+  },
   "author": "Igor Wiedler <igor@wiedler.ch>",
   "license": "MIT",
   "scripts": {
-    "download-model": "bun ./script/download-model.ts",
-    "semantic-index": "bun ./script/semantic-index.ts"
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "prepublishOnly": "npm run build",
+    "download-model": "bun dist/script/download-model.js",
+    "semantic-index": "bun dist/script/semantic-index.js"
   },
   "dependencies": {
     "fastembed": "latest"
@@ -19,20 +27,17 @@
   "devDependencies": {
     "@opencode-ai/plugin": "^1.0.201",
     "@types/node": "^20.0.0",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "typescript": "^5.7.0"
   },
   "files": [
-    "*.ts",
-    "tools/**/*.ts",
-    "util/**/*.ts",
-    "semantic/**/*.ts",
-    "script/**/*.ts",
+    "dist",
     "README.md",
-    "LICENSE",
-    "package.json"
+    "LICENSE"
   ],
   "keywords": [
     "opencode",
+    "opencode-plugin",
     "plugin",
     "chat",
     "semantic-search",
@@ -41,5 +46,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IgorWarzocha/Opencode-Chatifier.git"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
