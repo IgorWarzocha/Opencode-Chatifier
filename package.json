@@ -1,0 +1,45 @@
+{
+  "name": "opencode-chat",
+  "version": "0.1.0",
+  "description": "Chatifier plugin for OpenCode - Adds chat-optimized tools and semantic search",
+  "type": "module",
+  "main": "index.ts",
+  "author": "Igor Wiedler <igor@wiedler.ch>",
+  "license": "MIT",
+  "scripts": {
+    "download-model": "bun ./script/download-model.ts",
+    "semantic-index": "bun ./script/semantic-index.ts"
+  },
+  "dependencies": {
+    "fastembed": "latest"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": "^1.0.201"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.0.201",
+    "@types/node": "^20.0.0",
+    "bun-types": "latest"
+  },
+  "files": [
+    "*.ts",
+    "tools/**/*.ts",
+    "util/**/*.ts",
+    "semantic/**/*.ts",
+    "script/**/*.ts",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "keywords": [
+    "opencode",
+    "plugin",
+    "chat",
+    "semantic-search",
+    "agent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IgorWarzocha/Opencode-Chatifier.git"
+  }
+}
