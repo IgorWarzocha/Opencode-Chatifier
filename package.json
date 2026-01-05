@@ -1,6 +1,6 @@
 {
   "name": "@howaboua/opencode-chat",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Chatifier plugin for OpenCode - Adds chat-optimized tools and semantic search",
   "type": "module",
   "main": "dist/index.js",
