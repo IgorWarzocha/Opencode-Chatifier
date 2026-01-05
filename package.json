@@ -1,6 +1,6 @@
 {
   "name": "@howaboua/opencode-chat",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Chatifier plugin for OpenCode - Adds chat-optimized tools and semantic search",
   "type": "module",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "opencode-chat-download-model": "dist/script/download-model.js",
     "opencode-chat-semantic-index": "dist/script/semantic-index.js"
   },
-  "author": "Igor Wiedler <igor@wiedler.ch>",
+  "author": "Igor Warzocha",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",

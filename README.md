@@ -41,7 +41,7 @@ OpenCode automatically installs the plugin on next launch.
 
 ```json
 {
-  "plugin": ["@howaboua/opencode-chat@0.1.5"]
+  "plugin": ["@howaboua/opencode-chat@0.1.6"]
 }
 ```
 
